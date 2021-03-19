@@ -81,8 +81,8 @@ public class Application {
     @Bean
     public ApiInfo apiInfo() {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
-        builder.title("Mir-Core").version("0.0.1-demo").license("(C) Copyright 2020")
-                .description("List of all the APIs of Mir-Core through Swagger UI");
+        builder.title("Mir-Acquirer").version("1.0.0").license("(C) Copyright 2021")
+                .description("List of all the APIs of Mir-Acquirer through Swagger UI");
         return builder.build();
     }
 }

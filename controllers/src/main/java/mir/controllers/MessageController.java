@@ -23,6 +23,14 @@ public class MessageController {
         this.service = service;
     }
 
+    /*
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "Welcome to Acquirer";
+    }
+
+     */
+
     @PostMapping("/send-request")
     public String sendRequest(@RequestParam String message){
         service.saveMessage(message);

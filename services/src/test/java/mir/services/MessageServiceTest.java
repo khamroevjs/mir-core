@@ -15,6 +15,7 @@ public class MessageServiceTest {
 
     private final String URI = "https://mir-platform.herokuapp.com/messages";
 
+    /*
     @Test
     void MyTest(){
 
@@ -34,4 +35,6 @@ public class MessageServiceTest {
                 System.out.println(item.getHex());
         }
     }
+
+     */
 }
