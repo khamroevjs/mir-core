@@ -99,9 +99,6 @@ public class ISOMessageBuilder {
             finalMessage.setMessage(message);
             return finalMessage;
         }
-
-
-
     }
 
 }

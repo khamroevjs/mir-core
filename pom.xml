@@ -12,6 +12,8 @@
         <module>services</module>
         <module>parsing</module>
         <module>lib</module>
+        <module>check</module>
+        <module>change</module>
     </modules>
 
     <parent>
@@ -31,6 +33,13 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>

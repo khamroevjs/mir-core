@@ -1,5 +1,6 @@
 package mir.services;
 
+import mir.models.Card;
 import mir.models.ParsedMessage;
 import mir.repositories.IMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class MessageService implements IMessageService {
 
     private final IMessageRepository repository;
 
+    //region CRUD operations
     @Autowired
     public MessageService(IMessageRepository repository) {
         this.repository = repository;
@@ -100,11 +102,6 @@ public class MessageService implements IMessageService {
     public void deleteAllByEdited(boolean edited) {
         repository.deleteAllByEdited(edited);
     }
+    //endregion
 
-    @Override
-    public void saveMessage(String message){
-        ParsedMessage parsedMessage = new ParsedMessage();
-        parsedMessage.setHex(message);
-        repository.save(parsedMessage);
-    }
 }
