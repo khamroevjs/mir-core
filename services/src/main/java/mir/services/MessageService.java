@@ -100,11 +100,4 @@ public class MessageService implements IMessageService {
     public void deleteAllByEdited(boolean edited) {
         repository.deleteAllByEdited(edited);
     }
-
-    @Override
-    public void saveMessage(String message){
-        ParsedMessage parsedMessage = new ParsedMessage();
-        parsedMessage.setHex(message);
-        repository.save(parsedMessage);
-    }
 }

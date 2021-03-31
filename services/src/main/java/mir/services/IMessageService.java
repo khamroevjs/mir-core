@@ -35,7 +35,4 @@ public interface IMessageService {
     void deleteAllByHex(String hex);
 
     void deleteAllByEdited(boolean edited);
-
-    // TODO: 3/19/2021 Will be removed
-    void saveMessage(String message);
 }
