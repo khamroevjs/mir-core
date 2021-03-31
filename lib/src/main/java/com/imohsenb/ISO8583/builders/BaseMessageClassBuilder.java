@@ -104,24 +104,24 @@ public abstract class BaseMessageClassBuilder<T> implements
         //length check and padding
         if(field.isFixed())
         {
-            if(field.getLength()%2 !=0)
+            if(field.getMaxLength()%2 !=0)
             {
                 if(field.getType().equals("n")) {
                     fValue = padding(field, value, fValue);
                 }
-            }else if(field.getLength()-(fValue.length*2) > 0 && field.getType().equals("n")){
+            }else if(field.getMaxLength()-(fValue.length*2) > 0 && field.getType().equals("n")){
 
                 ByteArray valueBuffer = new ByteArray();
                 valueBuffer.append(fValue);
-                valueBuffer.prepend(new String(new char[(field.getLength()-(fValue.length*2))/2]).getBytes());
+                valueBuffer.prepend(new String(new char[(field.getMaxLength()-(fValue.length*2))/2]).getBytes());
                 fValue = valueBuffer.array();
                 valueBuffer.clear();
                 valueBuffer = null;
             }
 
-            if(fValue.length > field.getLength())
+            if(fValue.length > field.getMaxLength())
             {
-                fValue = Arrays.copyOfRange(fValue,fValue.length-field.getLength(),fValue.length);
+                fValue = Arrays.copyOfRange(fValue,fValue.length-field.getMaxLength(),fValue.length);
             }
 
         }else{
@@ -130,8 +130,8 @@ public abstract class BaseMessageClassBuilder<T> implements
             switch (field.getType())
             {
                 case "z":
-                    if(dLen > field.getLength())
-                        fValue = Arrays.copyOfRange(fValue,fValue.length - field.getLength(),fValue.length);
+                    if(dLen > field.getMaxLength())
+                        fValue = Arrays.copyOfRange(fValue,fValue.length - field.getMaxLength(),fValue.length);
 
 
 
@@ -161,13 +161,13 @@ public abstract class BaseMessageClassBuilder<T> implements
             valueBuffer = null;
         }
 
-        dataElements.put(field.getNo(),fValue);
+        dataElements.put(field.getNum(),fValue);
 
         return this;
     }
 
     private byte[] padding(FIELDS field, byte[] value, byte[] fValue) {
-        byte[] fixed = new byte[(int) Math.ceil(field.getLength() / 2) * 2];
+        byte[] fixed = new byte[(int) Math.ceil(field.getMaxLength() / 2) * 2];
 
         if (leftPadding) {
             leftPad(value, fValue, fixed);

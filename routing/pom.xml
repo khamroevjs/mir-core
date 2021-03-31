@@ -20,7 +20,13 @@
     <dependencies>
         <dependency>
             <groupId>mir</groupId>
-            <artifactId>controllers</artifactId>
+            <artifactId>parsing</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>mir</groupId>
+            <artifactId>services</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
