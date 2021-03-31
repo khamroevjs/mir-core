@@ -28,7 +28,7 @@ public class Platform {
         this.service = service;
     }
 
-    private final String URI = "http://localhost:8080/api"; // TODO: change to actual URI.
+    private final String URI = "https://mir-issuer.herokuapp.com/main/api";
 
     private String sendRequest(String hex) {
         // Form new Http-request to Issuer and get response from it.
