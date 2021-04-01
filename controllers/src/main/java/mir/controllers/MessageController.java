@@ -7,6 +7,8 @@ import mir.services.IMessageService;
 import mir.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -33,8 +35,14 @@ public class MessageController {
      * @return card
      */
     @PostMapping("/register-card")
-    public Card registerCard(@RequestBody Card card){
-        return cardService.registerCard(card);
+    public ResponseEntity<String> registerCard(@RequestBody Card card){
+        try {
+            cardService.registerCard(card);
+            return new ResponseEntity<>( "Card registered", HttpStatus.OK);
+        }
+        catch (IllegalStateException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

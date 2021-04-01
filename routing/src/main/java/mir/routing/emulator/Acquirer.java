@@ -1,11 +1,6 @@
 package mir.routing.emulator;
 
 import com.imohsenb.ISO8583.exceptions.ISOException;
-
-import java.io.IOException;
-import java.util.List;
-
-import io.swagger.annotations.Api;
 import mir.change.Changer;
 import mir.check.Checker;
 import mir.models.MessageError;
@@ -15,15 +10,32 @@ import mir.services.CardService;
 import mir.services.IMessageService;
 import mir.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.util.NumberUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/main")
 public class Acquirer {
+
+    /**
+     * URL to API-method of "Platform".
+     */
+    private final String PLATFORM_URL; //= "https://mir-platform.herokuapp.com/main/api";
+
+    /**
+     * URL to API-method of "Platform", which is designed for "Link" service.
+     */
+    private final String PLATFORM_LINK_URL; // = "https://mir-platform.herokuapp.com/main/link-api";
 
     private final IMessageService messageService;
     private final UserService userService;
@@ -34,10 +46,9 @@ public class Acquirer {
         this.messageService = messageService;
         this.userService = userService;
         this.cardService = cardService;
+        this.PLATFORM_URL = System.getenv("PLATFORM_URL");
+        this.PLATFORM_LINK_URL = System.getenv("PLATFORM_LINK_URL");
     }
-
-    private final String URI = "https://mir-platform.herokuapp.com/main/api";
-    private final String URI_FOR_LINK_REQUEST = "https://mir-platform.herokuapp.com/main/link-api";
 
     private String sendRequest(String hex, String uri) {
         // Form new Http-request to Platform and get response from it.
@@ -99,7 +110,7 @@ public class Acquirer {
                     messageService.add(formedMessage);
 
                     // Send request to platform and get response.
-                    respText = sendRequest(Router.getEncodedMessage(formedMessage), URI);
+                    respText = sendRequest(Router.getEncodedMessage(formedMessage), PLATFORM_URL);
                     var response = Router.getParsedMessage(respText);
                     messageService.add(response);
                     // Return response from Issuer.
@@ -172,7 +183,7 @@ public class Acquirer {
                     messageService.add(formedMessage);
 
                     // Send request to platform and get response.
-                    respText = sendRequest(Router.getEncodedMessage(formedMessage), URI);
+                    respText = sendRequest(Router.getEncodedMessage(formedMessage), PLATFORM_URL);
                     var response = Router.getParsedMessage(respText);
                     messageService.add(response);
                     // Return response from Issuer.
@@ -219,7 +230,7 @@ public class Acquirer {
                     messageService.add(formedMessage);
 
                     // Send request to platform and get response.
-                    respText = sendRequest(Router.getEncodedMessage(formedMessage), URI_FOR_LINK_REQUEST);
+                    respText = sendRequest(Router.getEncodedMessage(formedMessage), PLATFORM_LINK_URL);
 
                     // Return response from Issuer.
                     var response = Router.getParsedMessage(respText);
