@@ -29,6 +29,7 @@ public class Platform {
     }
 
     private final String URI = "https://mir-issuer.herokuapp.com/main/api";
+    private final String LINK_URI = "https://yar.cx/links/transaction";
 
     private String sendRequest(String hex) {
         // Form new Http-request to Issuer and get response from it.
@@ -47,6 +48,21 @@ public class Platform {
         return responseEntity.getBody();
     }
 
+    private String sendRequestToLink(String hex){
+        RestTemplate restTemplate = new RestTemplate();
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(LINK_URI)
+                .queryParam("Payload", hex);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.POST,
+                null,
+                String.class);
+
+        return responseEntity.getBody();
+    }
+
     @GetMapping(path = "/api")
     public ResponseEntity<String> getRequest(@RequestParam(name = "Payload") String payload) {
         if (payload != null && !payload.isBlank()) {
@@ -60,6 +76,32 @@ public class Platform {
                 String respText = sendRequest(Router.getEncodedMessage(parsedMessage));
 
                 // Return response from Platform.
+                var response = Router.getParsedMessage(respText);
+                service.add(response);
+                return new ResponseEntity<>(respText, HttpStatus.OK);
+            } catch (IOException neverThrown) {
+                return new ResponseEntity<>(neverThrown.getMessage(), HttpStatus.BAD_REQUEST);
+            } catch (ISOException ex) {
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>("Query can't be empty", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/link-api")
+    public ResponseEntity<String> getLinkRequest(@RequestParam(name = "Payload") String payload) {
+        if (payload != null && !payload.isBlank()) {
+            try {
+                // Check.
+                ParsedMessage parsedMessage = Router.getParsedMessage(payload);
+
+                service.add(parsedMessage);
+
+                String respText = sendRequestToLink(Router.getEncodedMessage(parsedMessage));
+                var response = Router.getParsedMessage(respText);
+                service.add(response);
+
                 return new ResponseEntity<>(respText, HttpStatus.OK);
             } catch (IOException neverThrown) {
                 return new ResponseEntity<>(neverThrown.getMessage(), HttpStatus.BAD_REQUEST);

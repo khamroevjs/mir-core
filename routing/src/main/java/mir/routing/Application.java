@@ -37,8 +37,7 @@ public class Application {
     @Bean
     public ApiInfo apiInfo() {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
-        builder.title("Mir-Core").version("0.0.1-demo").license("(C) Copyright 2020")
-                .description("List of all the APIs of Mir-Core through Swagger UI");
+        builder.title("Platform").version("1.0.0");
         return builder.build();
     }
 }
