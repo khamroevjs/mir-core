@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, String> {
 
     boolean existsByCardNumber(String cardNumber);
+
+    User findByCardNumber(String cardNumber);
 }

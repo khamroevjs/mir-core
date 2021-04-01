@@ -1,14 +1,13 @@
 package mir.controllers;
 
+import mir.models.Card;
 import mir.models.ParsedMessage;
+import mir.services.CardService;
 import mir.services.IMessageService;
 import mir.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,12 +17,24 @@ import java.util.List;
 public class MessageController {
 
     private final IMessageService messageService;
+    private final CardService cardService;
     private final UserService userService;
 
     @Autowired
-    public MessageController(IMessageService service, UserService userService) {
+    public MessageController(IMessageService service, CardService cardService, UserService userService) {
         this.messageService = service;
+        this.cardService = cardService;
         this.userService = userService;
+    }
+
+    /**
+     * For fundraising. Registers card
+     * @param card card
+     * @return card
+     */
+    @PostMapping("/register-card")
+    public Card registerCard(@RequestBody Card card){
+        return cardService.registerCard(card);
     }
 
     /**
@@ -31,9 +42,9 @@ public class MessageController {
      * @param cardNumber card number
      * @return true - if exists, false - otherwise
      */
-    @GetMapping(path = "/card-number-exists")
-    public boolean cardNumberExists(String cardNumber){
-        return userService.exists(cardNumber);
+    @GetMapping( "/user-exists")
+    public boolean userExists(@RequestParam String cardNumber){
+        return userService.existsByCardNumber(cardNumber);
     }
 
     /**
@@ -44,7 +55,7 @@ public class MessageController {
      * @param end   end date
      * @return list of messages
      */
-    @GetMapping(path = "/get-by-date-range")
+    @GetMapping(path = "/get-transactions-by-date-range")
     public List<ParsedMessage> getAllByTransactionDateBetween(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam LocalDateTime start,
@@ -54,37 +65,28 @@ public class MessageController {
         return messageService.getAllByTransactionDateBetween(start, end);
     }
 
-    @GetMapping(path = "/welcome")
-    public String welcome() {
-        return "Welcome to Mir-Core";
-    }
-
     @GetMapping(path = "/all-messages")
     public List<ParsedMessage> getMessages() {
         return messageService.getAll();
     }
 
-
-    //    @ApiResponses(value = {
+//    Examples:
+//
+//    @ApiResponses(value = {
 //            @ApiResponse(code = 200, message = "Client successfully saved"),
 //            @ApiResponse(code = 400, message = "The user already exists")
 //    })
-//    // TODO: 3/6/2021 Will be removed
-//    @Deprecated
+//
 //    @PostMapping
 //    public void addMessage(@RequestBody ParsedMessage parsedMessage) {
 //        service.addMessage(parsedMessage);
 //    }
 //
-//    // TODO: 3/6/2021 Will be removed
-//    @Deprecated
 //    @DeleteMapping(path = "{id}")
 //    public void deleteMessage(@PathVariable("id") Integer id) {
 //        service.deleteMessageById(id);
 //    }
 //
-//    // TODO: 3/6/2021 Will be removed
-//    @Deprecated
 //    @PutMapping(path = "{id}")
 //    public void updateMessage(@PathVariable("id") Integer id,
 //                              @RequestBody ParsedMessage parsedMessage) {

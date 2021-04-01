@@ -13,7 +13,7 @@ public class User {
     @Id
     private String cardNumber;
     private String userName;
-    private Integer money;
+    private Long money;
 
     //region Getters and Setters
     public String getCardNumber() {
@@ -32,11 +32,11 @@ public class User {
         this.userName = userName;
     }
 
-    public Integer getMoney() {
+    public Long getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(Long money) {
         this.money = money;
     }
     //endregion

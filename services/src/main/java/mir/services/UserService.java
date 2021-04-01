@@ -4,5 +4,8 @@ import mir.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 public interface UserService {
-    public boolean exists(String cardNumber);
+    boolean existsByCardNumber(String cardNumber);
+
+    Long depositMoney(String cardNumber, Long money);
+    Long writeOffMoney(String cardNumber, Long money) throws IllegalStateException;
 }

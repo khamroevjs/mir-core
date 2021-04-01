@@ -15,7 +15,7 @@ public class Card {
     private LocalDate expiryDate;
     private String holderName;
     private String CVC;
-    private Double money;
+    private Long money;
 
     //region Getters and Setters
     public String getNumber() {
@@ -50,11 +50,11 @@ public class Card {
         this.CVC = CVC;
     }
 
-    public Double getMoney() {
+    public Long getMoney() {
         return money;
     }
 
-    public void setMoney(Double money) {
+    public void setMoney(Long money) {
         this.money = money;
     }
     //endregion

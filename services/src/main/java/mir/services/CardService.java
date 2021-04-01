@@ -5,7 +5,11 @@ import mir.models.ParsedMessage;
 
 public interface CardService {
 
-    String registerCard(Card card);
+    Card registerCard(Card card);
 
-    String transferMoney(Card sender, String recipientCardNumber, Double amountOfMoney);
+    String transferMoney(Card sender, String recipientCardNumber, Long amountOfMoney);
+    boolean existsByNumber(String number);
+
+    Long depositMoney(String cardNumber, Long money);
+    Long writeOffMoney(String cardNumber, Long money) throws IllegalStateException;
 }
