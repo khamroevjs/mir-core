@@ -31,9 +31,10 @@ public class Issuer {
         if (payload != null && !payload.isBlank()) {
             try {
                 ParsedMessage parsedMessage = Router.getParsedMessage(payload);
-                ParsedMessage formedMessage = Changer.formResponse(parsedMessage);
-
                 service.add(parsedMessage);
+
+                ParsedMessage formedMessage = Changer.formResponse(parsedMessage);
+                service.add(formedMessage);
 
                 String respText = Router.getEncodedMessage(formedMessage);
 
