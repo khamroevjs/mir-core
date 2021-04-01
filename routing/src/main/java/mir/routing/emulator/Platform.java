@@ -21,21 +21,28 @@ import java.io.*;
 @RequestMapping("/main")
 public class Platform {
 
+    /**
+     * URL to API-method of "Issuer".
+     */
+    private final String ISSUER_URL;// = "https://mir-issuer.herokuapp.com/main/api";
+    /**
+     * URL to API-method of "Link" service.
+     */
+    private final String LINK_URL;// = "https://yar.cx/links/transaction";
     private final IMessageService service;
 
     @Autowired
     public Platform(IMessageService service) {
         this.service = service;
+        this.ISSUER_URL = System.getenv("ISSUER_URL");
+        this.LINK_URL = System.getenv("LINK_URL");
     }
-
-    private final String URI = "https://mir-issuer.herokuapp.com/main/api";
-    private final String LINK_URI = "https://yar.cx/links/transaction";
 
     private String sendRequest(String hex) {
         // Form new Http-request to Issuer and get response from it.
         RestTemplate restTemplate = new RestTemplate();
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(URI)
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(ISSUER_URL)
                 .queryParam("Payload", hex);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -51,7 +58,7 @@ public class Platform {
     private String sendRequestToLink(String hex){
         RestTemplate restTemplate = new RestTemplate();
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(LINK_URI)
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(LINK_URL)
                 .queryParam("Payload", hex);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(
