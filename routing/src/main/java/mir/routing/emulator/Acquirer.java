@@ -16,6 +16,7 @@ import mir.services.IMessageService;
 import mir.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.util.NumberUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -75,13 +76,12 @@ public class Acquirer {
                         return new ResponseEntity<>("Card number is not provided", HttpStatus.BAD_REQUEST);
                     else
                         cardNumber = cardNumberParsedField.getContent();
-
                     if (!userService.existsByCardNumber(cardNumber))
                         return new ResponseEntity<>("User with given number doesn't exists", HttpStatus.BAD_REQUEST);
 
                     var typeOfOperation = parsedMessage.getFields().get(3).getSubfields().get(1).getContent();
                     String moneyString = parsedMessage.getFields().get(4).getContent();
-                    Long money = Long.getLong(moneyString);
+                    Long money = Long.parseLong(moneyString);
 
 
                     if (typeOfOperation.compareTo("00") == 0) {
@@ -156,7 +156,7 @@ public class Acquirer {
 
                     String typeOfOperation = parsedMessage.getFields().get(3).getSubfields().get(1).getContent();
                     String moneyString = parsedMessage.getFields().get(4).getContent();
-                    Long money = Long.getLong(moneyString);
+                    Long money = Long.parseLong(moneyString);
 
                     if (typeOfOperation.compareTo("00") == 0) {
                         try {
