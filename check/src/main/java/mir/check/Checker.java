@@ -40,7 +40,7 @@ public class Checker {
         }
         // The primary bitmap is correct.
         errors = checkFieldsOnAnnotations(parsedMessage, errors);
-        errors = checkTransactionDate(parsedMessage, errors);
+        //errors = checkTransactionDate(parsedMessage, errors); // TODO: 4/1/2021 must be removed
         errors = checkParsedFields(parsedMessage, errors);
         return errors;
     }
