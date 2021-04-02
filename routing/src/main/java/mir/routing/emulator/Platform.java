@@ -5,6 +5,7 @@ import mir.models.ParsedMessage;
 import mir.parsing.routing.Router;
 import mir.services.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,16 +57,12 @@ public class Platform {
     }
 
     private String sendRequestToLink(String hex){
+        HttpEntity<String> request = new HttpEntity<>(hex);
+
         RestTemplate restTemplate = new RestTemplate();
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(LINK_URL)
-                .queryParam("Payload", hex);
-
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
-                uriBuilder.toUriString(),
-                HttpMethod.POST,
-                null,
-                String.class);
+        ResponseEntity<String> responseEntity = restTemplate.
+                postForEntity(LINK_URL, request, String.class);
 
         return responseEntity.getBody();
     }
