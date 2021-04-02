@@ -5,7 +5,8 @@ import java.util.Map;
 
 public enum ELEMENTS {
     //                          |fieldNum   |elemNum      |type    |minLen       |maxLen           |fixed          |format
-    E97_TextMessageToRecipient (48, 97,  "%",   1, 200,   false,  "LLL");
+    E97_TextMessageToRecipient (48, 97,  "%",   1, 200,   false,  "LLL"),
+    E_AA_ReferenceNumber (48, 170, "^", 6, 6, true, null);
 
     private final int fieldNum;
     private final int elemNum;
