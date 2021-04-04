@@ -77,7 +77,7 @@ public class Platform {
                 service.add(parsedMessage);
 
                 // Send request to platform and get response.
-                String respText = sendRequest(Router.getEncodedMessage(parsedMessage));
+                String respText = sendRequest(Router.getEncodedMessage(parsedMessage)).trim();
 
                 // Return response from Platform.
                 var response = Router.getParsedMessage(respText);
