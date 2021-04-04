@@ -102,7 +102,7 @@ public class Platform {
 
                 service.add(parsedMessage);
 
-                String respText = sendRequestToLink(Router.getEncodedMessage(parsedMessage));
+                String respText = sendRequestToLink(Router.getEncodedMessage(parsedMessage)).trim();
                 var response = Router.getParsedMessage(respText);
                 service.add(response);
 
