@@ -1,3 +1,11 @@
+# Эмулятор ядра платежной системы "Мир".
+
+**Эквайер: https://mir-acquirer.herokuapp.com/swagger-ui.html#/**
+
+**Платформа: https://mir-platform.herokuapp.com/swagger-ui.html#/**
+
+**Эмитент: https://mir-issuer.herokuapp.com/swagger-ui.html#/**
+
 Lib Module
 ------------
 ##### ISO-8583 Java Lib #####
